@@ -3299,7 +3299,7 @@ class HomeSwitch(TypedDict, total=False):
 type HomeSwitchSide = Literal["above", "below"]
 
 
-type InputBinding = InputBindingVariant0 | InputBindingVariant1
+type InputBinding = InputBindingVariant0 | InputBindingVariant1 | InputBindingVariant2
 
 
 class InputBindingVariant0(TypedDict, total=False):
@@ -3310,6 +3310,11 @@ class InputBindingVariant0(TypedDict, total=False):
 class InputBindingVariant1(TypedDict, total=False):
     kind: Required[Literal["native_input"]]
     name: Required[str]
+
+
+class InputBindingVariant2(TypedDict, total=False):
+    kind: Required[Literal["scanner_row"]]
+    row: Required[str]
 
 
 class InputReaders(TypedDict, total=False):
