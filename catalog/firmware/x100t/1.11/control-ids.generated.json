@@ -3842,7 +3842,15 @@
           "upper": 1
         }
       },
-      "electrical": null
+      "electrical": {
+        "kind": "gpio_contacts",
+        "connection_id": "controls-contacts-3-6-3-7",
+        "expected_levels": [
+          true,
+          true
+        ],
+        "callback": 9706012
+      }
     },
     {
       "id": "row-17",
@@ -3862,7 +3870,15 @@
           "upper": 1
         }
       },
-      "electrical": null
+      "electrical": {
+        "kind": "gpio_contacts",
+        "connection_id": "controls-contacts-3-6-3-7",
+        "expected_levels": [
+          false,
+          true
+        ],
+        "callback": 9706080
+      }
     },
     {
       "id": "row-18",
@@ -3882,7 +3898,15 @@
           "upper": 1
         }
       },
-      "electrical": null
+      "electrical": {
+        "kind": "gpio_contacts",
+        "connection_id": "controls-contacts-3-6-3-7",
+        "expected_levels": [
+          true,
+          false
+        ],
+        "callback": 9706148
+      }
     },
     {
       "id": "row-19",
@@ -5902,7 +5926,37 @@
         "control_id": "command_dial"
       },
       "scanner": null,
-      "electrical": null
+      "electrical": {
+        "kind": "gpio_transition",
+        "connection_id": "controls-encoder-3-8-3-9",
+        "phase_map": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "transitions": [
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0
+        ],
+        "decoder_event": 1,
+        "guard": 9723168,
+        "threshold": 1
+      }
     },
     {
       "id": "encoder-44",
@@ -5913,7 +5967,37 @@
         "control_id": "command_dial"
       },
       "scanner": null,
-      "electrical": null
+      "electrical": {
+        "kind": "gpio_transition",
+        "connection_id": "controls-encoder-3-8-3-9",
+        "phase_map": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "transitions": [
+          0,
+          1,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0
+        ],
+        "decoder_event": 2,
+        "guard": 9723168,
+        "threshold": 1
+      }
     },
     {
       "id": "debug-521",
