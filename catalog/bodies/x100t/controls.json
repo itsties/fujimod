@@ -251,7 +251,8 @@
       "face": null,
       "icon": null,
       "connection_ids": [
-        "controls-gpio-0-10"
+        "controls-gpio-0-10",
+        "controls-encoder-3-8-3-9"
       ],
       "assignable": false,
       "default_function": "Rotate to navigate menus, zoom, choose the number of playback images, and select quick-menu options; press the center to zoom in on the active focus area.",
@@ -527,7 +528,9 @@
       "manual_page": 122,
       "face": null,
       "icon": null,
-      "connection_ids": [],
+      "connection_ids": [
+        "controls-contacts-3-6-3-7"
+      ],
       "assignable": false,
       "default_function": "Choose manual focus, continuous AF, or single AF.",
       "role": null,
