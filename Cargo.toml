@@ -289,3 +289,6 @@ strip = "debuginfo"
 [profile.release.build-override]
 strip = "none"
 opt-level = 3
+
+[patch.crates-io]
+openh264-sys2 = { path = "vendor/openh264-sys2" }
