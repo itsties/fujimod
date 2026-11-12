@@ -5109,7 +5109,8 @@
       "event": 548,
       "debug_key": "VIEW",
       "target": {
-        "kind": "unclaimed"
+        "kind": "control",
+        "control_id": "view_mode_button"
       },
       "scanner": {
         "index": 59,
@@ -5162,7 +5163,8 @@
       "event": 39,
       "debug_key": "FUNCTION",
       "target": {
-        "kind": "unclaimed"
+        "kind": "control",
+        "control_id": "wifi_button"
       },
       "scanner": {
         "index": 61,
@@ -5892,23 +5894,23 @@
       }
     },
     {
-      "id": "debug-37",
-      "event": 37,
-      "debug_key": "EVF_LCD",
+      "id": "encoder-43",
+      "event": 43,
+      "debug_key": "CMD_LEFT",
       "target": {
         "kind": "control",
-        "control_id": "view_mode_button"
+        "control_id": "command_dial"
       },
       "scanner": null,
       "electrical": null
     },
     {
-      "id": "debug-54",
-      "event": 54,
-      "debug_key": "WLAN",
+      "id": "encoder-44",
+      "event": 44,
+      "debug_key": "CMD_RIGHT",
       "target": {
         "kind": "control",
-        "control_id": "wifi_button"
+        "control_id": "command_dial"
       },
       "scanner": null,
       "electrical": null
