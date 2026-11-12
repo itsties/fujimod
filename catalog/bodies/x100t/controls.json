@@ -261,8 +261,14 @@
         "kind": "dial",
         "motion": {
           "kind": "steps",
-          "decrease": null,
-          "increase": null
+          "decrease": {
+            "kind": "debug_key",
+            "name": "CMD_LEFT"
+          },
+          "increase": {
+            "kind": "debug_key",
+            "name": "CMD_RIGHT"
+          }
         },
         "press": {
           "kind": "debug_key",
@@ -1056,7 +1062,9 @@
       "manual_page": 20,
       "face": "VIEW/MODE",
       "icon": null,
-      "connection_ids": [],
+      "connection_ids": [
+        "controls-gpio-4-5"
+      ],
       "assignable": false,
       "default_function": "Cycle the viewfinder and LCD display modes.",
       "role": null,
@@ -1065,7 +1073,7 @@
         "kind": "button",
         "press": {
           "kind": "debug_key",
-          "name": "EVF_LCD"
+          "name": "VIEW"
         }
       },
       "pushable": true,
@@ -1101,7 +1109,9 @@
       "manual_page": 249,
       "face": "Fn",
       "icon": null,
-      "connection_ids": [],
+      "connection_ids": [
+        "controls-gpio-2-11"
+      ],
       "assignable": true,
       "default_function": "Start wireless communication.",
       "role": null,
@@ -1110,7 +1120,7 @@
         "kind": "button",
         "press": {
           "kind": "debug_key",
-          "name": "WLAN"
+          "name": "FUNCTION"
         }
       },
       "pushable": true,
