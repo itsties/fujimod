@@ -61,7 +61,17 @@
             {
               "name": "audio",
               "kind": "SerialAudioTransmitSink",
-              "refs": {}
+              "refs": {},
+              "model_choices": {
+                "option": "audio_input_profile",
+                "models": {
+                  "declared-silent-stereo-pcm48000": {
+                    "kind": "SerialAudioReceiveSource",
+                    "refs": {},
+                    "dependencies": []
+                  }
+                }
+              }
             },
             {
               "name": "pulseoutputs",
@@ -588,6 +598,120 @@
               ],
               "pwic_modes": [
                 1
+              ],
+              "extra_registers": [
+                {
+                  "address": 10,
+                  "modes": [
+                    1,
+                    9
+                  ],
+                  "values": [
+                    [
+                      2,
+                      0
+                    ],
+                    [
+                      5,
+                      0
+                    ],
+                    [
+                      7,
+                      0
+                    ],
+                    [
+                      8,
+                      0
+                    ],
+                    [
+                      9,
+                      0
+                    ],
+                    [
+                      10,
+                      0
+                    ],
+                    [
+                      11,
+                      0
+                    ],
+                    [
+                      12,
+                      0
+                    ],
+                    [
+                      13,
+                      0
+                    ],
+                    [
+                      14,
+                      0
+                    ],
+                    [
+                      16,
+                      0
+                    ],
+                    [
+                      17,
+                      0
+                    ],
+                    [
+                      18,
+                      0
+                    ],
+                    [
+                      19,
+                      0
+                    ]
+                  ],
+                  "write_masks": [
+                    [
+                      7,
+                      255
+                    ],
+                    [
+                      8,
+                      255
+                    ],
+                    [
+                      9,
+                      255
+                    ],
+                    [
+                      10,
+                      255
+                    ],
+                    [
+                      11,
+                      255
+                    ],
+                    [
+                      12,
+                      255
+                    ],
+                    [
+                      13,
+                      255
+                    ],
+                    [
+                      14,
+                      255
+                    ],
+                    [
+                      16,
+                      255
+                    ],
+                    [
+                      17,
+                      255
+                    ],
+                    [
+                      18,
+                      255
+                    ]
+                  ],
+                  "basis": "Bus1 chip 10, after the lens bridge (114) and the PWIC (48), as on the X70. X100T 1.11 addresses it in mode 9, e.g. entering playback, which stops without it. Registers and masks are the X70's declaration of the same chip, not measured on an X100T."
+                }
               ]
             }
           }
@@ -649,37 +773,11 @@
             },
             "basis": "Declared catalog input."
           },
-          "focus_imaging": {
-            "optics": {
-              "target_position": 0,
-              "pulses_per_radius": 16,
-              "maximum_radius": 32
-            },
-            "memory_bytes_per_tick": 16,
-            "contrast": {
-              "kind": "squared_horizontal_gradients",
-              "luma_bits": 12
-            },
-            "basis": "Declared catalog input.",
-            "face_detector": {
-              "mode": "retained_words"
-            },
-            "input_clock_mode": "source_mask",
-            "frame_phase": 0,
-            "raster": {
-              "width": 2496,
-              "height": 853,
-              "stride": 4992
-            },
-            "metering": "rgb_cell_means12",
-            "statistics_pixels_per_tick": 64,
-            "input_period_ticks": 200000
-          },
           "sensor_capture": {
             "width": 4992,
             "height": 3362,
             "period_ticks": 1200000,
-            "dma_ticks": 1000,
+            "dma_ticks": 153600,
             "cfa_origin": [
               0,
               62
@@ -906,6 +1004,52 @@
           },
           "af_extraction": {
             "profile": "register-pdaf-packed12-aperture-sad-unmeasured"
+          },
+          "iris_optics": {
+            "actuator": "bridge",
+            "output": "lens_aperture",
+            "positions": [
+              [
+                -102,
+                2.0
+              ],
+              [
+                -78,
+                2.8284271247461903
+              ],
+              [
+                -66,
+                4.0
+              ],
+              [
+                -54,
+                5.656854249492381
+              ],
+              [
+                -42,
+                8.0
+              ],
+              [
+                -30,
+                11.313708498984761
+              ],
+              [
+                -11,
+                16.0
+              ]
+            ]
+          },
+          "iris_mechanics": {
+            "travel_limits": [
+              -109,
+              0
+            ],
+            "boundary": "end_stop"
+          },
+          "focus_axis": {
+            "output": "lens_focus",
+            "infinity_position": -300,
+            "steps_per_mm": 267.0
           }
         },
         "attachments": {
@@ -923,6 +1067,26 @@
           "device-6",
           "sensor",
           "device-8"
+        ],
+        "encoders": [
+          {
+            "name": "command_dial",
+            "counter": null,
+            "options": {
+              "pins": [
+                {
+                  "port": 3,
+                  "pin": 8
+                },
+                {
+                  "port": 3,
+                  "pin": 9
+                }
+              ],
+              "phase_ticks": 120000,
+              "rest_phase": 3
+            }
+          }
         ]
       },
       "x100t-service-transports": {
