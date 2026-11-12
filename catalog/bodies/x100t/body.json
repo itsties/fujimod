@@ -1165,7 +1165,7 @@
           "device-4",
           "device-5",
           "device-6",
-          "sensor",
+          "device-7",
           "device-8"
         ],
         "encoders": [
@@ -1764,7 +1764,7 @@
           "device-4",
           "device-5",
           "device-6",
-          "sensor",
+          "device-7",
           "device-8"
         ]
       }
@@ -1774,13 +1774,7 @@
   "nand": null,
   "sensor": {
     "part_id": "x70-image-sensor",
-    "connection_id": "sensor-bus",
-    "control_bus": {
-      "controller_id": "control-bus0",
-      "channel": 0,
-      "address": 28,
-      "polarity_selector": 1
-    }
+    "connection_id": "sensor-input"
   },
   "lens": null,
   "display": null,
@@ -1842,6 +1836,13 @@
       "address": 12,
       "polarity_selector": 1,
       "id": "device-6"
+    },
+    {
+      "controller_id": "control-bus0",
+      "channel": 0,
+      "address": 28,
+      "polarity_selector": 1,
+      "id": "device-7"
     },
     {
       "controller_id": "control-bus1",
@@ -2081,14 +2082,13 @@
       ]
     },
     {
-      "id": "sensor-bus",
+      "id": "sensor-input",
       "kind": "sensor",
       "signals": [
         {
-          "kind": "serial",
-          "block_id": "control-bus0",
-          "channel": 0,
-          "address": 28
+          "kind": "block",
+          "block_id": "image-input",
+          "signal": "data_ready"
         }
       ]
     }
