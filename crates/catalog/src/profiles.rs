@@ -562,6 +562,21 @@ pub struct Radiometry {
     pub ticks_per_second: u64,
     /// Declared white luminance.
     pub white_luminance: f64,
+    /// Live-view calibration declared separately from the still readout.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub live_view: Option<RadiometricCalibration>,
+}
+
+/// Declared calibration of one radiometric path.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
+#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "schema", schemars(rename = "HardwareRadiometricCalibration"))]
+pub struct RadiometricCalibration {
+    /// Raw response to the reference white, per colour.
+    pub reference_white: Vec<u64>,
+    /// Exposure that saturates the reference white.
+    pub saturation_lux_seconds: f64,
 }
 
 /// Declared capture color facts.

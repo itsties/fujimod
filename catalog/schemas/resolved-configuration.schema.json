@@ -14335,10 +14335,46 @@
       ],
       "type": "object"
     },
+    "HardwareRadiometricCalibration": {
+      "additionalProperties": false,
+      "description": "Declared calibration of one radiometric path.",
+      "properties": {
+        "reference_white": {
+          "description": "Raw response to the reference white, per colour.",
+          "items": {
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "saturation_lux_seconds": {
+          "description": "Exposure that saturates the reference white.",
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "required": [
+        "reference_white",
+        "saturation_lux_seconds"
+      ],
+      "type": "object"
+    },
     "HardwareRadiometry": {
       "additionalProperties": false,
       "description": "Declared radiometry facts.",
       "properties": {
+        "live_view": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HardwareRadiometricCalibration"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Live-view calibration declared separately from the still readout."
+        },
         "mode_change_frames": {
           "description": "Invalid readouts while a sensor drive-mode change acquires sync.",
           "format": "uint8",

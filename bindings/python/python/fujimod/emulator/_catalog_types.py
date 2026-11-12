@@ -2962,7 +2962,13 @@ class HardwareProjection(TypedDict, total=False):
     subject_distance_mm: Required[int]
 
 
+class HardwareRadiometricCalibration(TypedDict, total=False):
+    reference_white: Required[list[int]]
+    saturation_lux_seconds: Required[int]
+
+
 class HardwareRadiometry(TypedDict, total=False):
+    live_view: NotRequired[HardwareRadiometricCalibration | None]
     mode_change_frames: Required[int]
     pixel_clock_hz: Required[int]
     projection: Required[HardwareProjection]
