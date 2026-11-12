@@ -2027,6 +2027,18 @@
           "active_level": true
         }
       ]
+    },
+    {
+      "id": "power",
+      "kind": "control",
+      "signals": [
+        {
+          "kind": "gpio",
+          "port": 0,
+          "pin": 5,
+          "active_level": true
+        }
+      ]
     }
   ],
   "parts": [

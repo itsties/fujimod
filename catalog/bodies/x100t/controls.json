@@ -682,7 +682,9 @@
       "manual_page": 26,
       "face": "ON/OFF",
       "icon": null,
-      "connection_ids": [],
+      "connection_ids": [
+        "power"
+      ],
       "assignable": false,
       "default_function": "Turn the camera on or off.",
       "role": null,

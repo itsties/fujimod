@@ -6023,5 +6023,16 @@
     }
   ],
   "undelivered_rows": [],
-  "interfaces": {}
+  "interfaces": {
+    "power": {
+      "kind": "power_switch",
+      "connection_id": "power",
+      "saved_inputs": 1074397184,
+      "endpoint": 9,
+      "register": 96,
+      "mask": 1,
+      "on_value": 0,
+      "off_value": 1
+    }
+  }
 }
