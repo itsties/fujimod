@@ -165,12 +165,33 @@ pub struct PrimaryControlBus {
     pub transfer_ticks: u64,
 }
 
+/// One further register chip on the secondary bus.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
+#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "schema", schemars(rename = "HardwareSecondaryBusRegisterChip"))]
+pub struct SecondaryBusRegisterChip {
+    /// Seven-bit chip address.
+    pub address: u64,
+    /// Why this chip and its registers are believed.
+    pub basis: String,
+    /// Bus modes in which the chip answers.
+    pub modes: Vec<u64>,
+    /// Initial register values, each `[register, value]`.
+    pub values: Vec<Vec<u64>>,
+    /// Writable bits, each `[register, mask]`.
+    pub write_masks: Vec<Vec<u64>>,
+}
+
 /// Declared control bus1 replies facts.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "schema", derive(schemars::JsonSchema))]
 #[serde(deny_unknown_fields)]
 #[cfg_attr(feature = "schema", schemars(rename = "HardwareSecondaryBusRegisters"))]
 pub struct SecondaryBusRegisters {
+    /// Further register chips on the bus, each with its own register map.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extra_registers: Option<Vec<SecondaryBusRegisterChip>>,
     /// Declared pwic address.
     pub pwic_address: u64,
     /// Declared pwic modes.
@@ -761,7 +782,7 @@ pub struct IrisMechanics {
     /// Declared boundary.
     pub boundary: String,
     /// Declared travel limits.
-    pub travel_limits: Vec<u64>,
+    pub travel_limits: Vec<i64>,
 }
 
 /// Declared iris optics facts.
@@ -770,6 +791,10 @@ pub struct IrisMechanics {
 #[serde(deny_unknown_fields)]
 #[cfg_attr(feature = "schema", schemars(rename = "HardwareIrisOptics"))]
 pub struct IrisOptics {
+    /// What moves the iris: `lens` (the lens unit's second motor, the default)
+    /// or `bridge` (the stepper behind the bus1 motor bridge).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub actuator: Option<String>,
     /// Declared output.
     pub output: String,
     /// Declared positions.

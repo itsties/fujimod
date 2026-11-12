@@ -5720,8 +5720,7 @@
         "travel_limits": {
           "description": "Declared travel limits.",
           "items": {
-            "format": "uint64",
-            "minimum": 0,
+            "format": "int64",
             "type": "integer"
           },
           "type": "array"
@@ -5737,6 +5736,13 @@
       "additionalProperties": false,
       "description": "Declared iris optics facts.",
       "properties": {
+        "actuator": {
+          "description": "What moves the iris: `lens` (the lens unit's second motor, the default)\nor `bridge` (the stepper behind the bus1 motor bridge).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "output": {
           "description": "Declared output.",
           "type": "string"
@@ -7216,10 +7222,77 @@
       ],
       "type": "object"
     },
+    "HardwareSecondaryBusRegisterChip": {
+      "additionalProperties": false,
+      "description": "One further register chip on the secondary bus.",
+      "properties": {
+        "address": {
+          "description": "Seven-bit chip address.",
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "basis": {
+          "description": "Why this chip and its registers are believed.",
+          "type": "string"
+        },
+        "modes": {
+          "description": "Bus modes in which the chip answers.",
+          "items": {
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "values": {
+          "description": "Initial register values, each `[register, value]`.",
+          "items": {
+            "items": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "write_masks": {
+          "description": "Writable bits, each `[register, mask]`.",
+          "items": {
+            "items": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "address",
+        "basis",
+        "modes",
+        "values",
+        "write_masks"
+      ],
+      "type": "object"
+    },
     "HardwareSecondaryBusRegisters": {
       "additionalProperties": false,
       "description": "Declared control bus1 replies facts.",
       "properties": {
+        "extra_registers": {
+          "description": "Further register chips on the bus, each with its own register map.",
+          "items": {
+            "$ref": "#/$defs/HardwareSecondaryBusRegisterChip"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "pwic_address": {
           "description": "Declared pwic address.",
           "format": "uint64",

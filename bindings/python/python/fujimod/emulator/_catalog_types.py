@@ -2855,6 +2855,7 @@ class HardwareIrisMechanics(TypedDict, total=False):
 
 
 class HardwareIrisOptics(TypedDict, total=False):
+    actuator: NotRequired[str | None]
     output: Required[str]
     positions: Required[list[list[int]]]
 
@@ -3119,7 +3120,16 @@ class HardwareSdHostClocks(TypedDict, total=False):
     words: Required[list[int]]
 
 
+class HardwareSecondaryBusRegisterChip(TypedDict, total=False):
+    address: Required[int]
+    basis: Required[str]
+    modes: Required[list[int]]
+    values: Required[list[list[int]]]
+    write_masks: Required[list[list[int]]]
+
+
 class HardwareSecondaryBusRegisters(TypedDict, total=False):
+    extra_registers: NotRequired[list[HardwareSecondaryBusRegisterChip] | None]
     pwic_address: Required[int]
     pwic_modes: Required[list[int]]
     pwic_read_prefixes: Required[list[tuple[int, str]]]
@@ -3305,7 +3315,7 @@ class HomeSwitch(TypedDict, total=False):
 type HomeSwitchSide = Literal["above", "below"]
 
 
-type InputBinding = InputBindingVariant0 | InputBindingVariant1
+type InputBinding = InputBindingVariant0 | InputBindingVariant1 | InputBindingVariant2
 
 
 class InputBindingVariant0(TypedDict, total=False):
@@ -3316,6 +3326,11 @@ class InputBindingVariant0(TypedDict, total=False):
 class InputBindingVariant1(TypedDict, total=False):
     kind: Required[Literal["native_input"]]
     name: Required[str]
+
+
+class InputBindingVariant2(TypedDict, total=False):
+    kind: Required[Literal["scanner_row"]]
+    row: Required[str]
 
 
 class InputReaders(TypedDict, total=False):
