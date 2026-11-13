@@ -590,7 +590,9 @@
       "manual_page": 124,
       "face": null,
       "icon": null,
-      "connection_ids": [],
+      "connection_ids": [
+        "controls-encoder-adc-6-7"
+      ],
       "assignable": false,
       "default_function": "Focus manually; rotate to change the focus distance.",
       "role": null,
@@ -600,12 +602,12 @@
         "motion": {
           "kind": "steps",
           "decrease": {
-            "kind": "debug_key",
-            "name": "F_RING-"
+            "kind": "native_input",
+            "name": "KEY_FOCUS_RING_LEFT"
           },
           "increase": {
-            "kind": "debug_key",
-            "name": "F_RING+"
+            "kind": "native_input",
+            "name": "KEY_FOCUS_RING_RIGHT"
           }
         },
         "press": null,

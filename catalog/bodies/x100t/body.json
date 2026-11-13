@@ -1086,6 +1086,32 @@
               "phase_ticks": 120000,
               "rest_phase": 3
             }
+          },
+          {
+            "name": "focus_ring",
+            "adc": "adc",
+            "options": {
+              "outputs": {
+                "kind": "adc",
+                "channels": [
+                  6,
+                  7
+                ],
+                "levels": [
+                  {
+                    "low": 500,
+                    "high": 1000
+                  },
+                  {
+                    "low": 500,
+                    "high": 1000
+                  }
+                ]
+              },
+              "phase_ticks": 120000,
+              "rest_phase": 3
+            },
+            "counter": null
           }
         ]
       },
@@ -2025,6 +2051,22 @@
           "port": 3,
           "pin": 9,
           "active_level": true
+        }
+      ]
+    },
+    {
+      "id": "controls-encoder-adc-6-7",
+      "kind": "control",
+      "signals": [
+        {
+          "kind": "adc",
+          "channel": 6,
+          "threshold": null
+        },
+        {
+          "kind": "adc",
+          "channel": 7,
+          "threshold": null
         }
       ]
     },
