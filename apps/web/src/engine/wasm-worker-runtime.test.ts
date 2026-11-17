@@ -289,6 +289,46 @@ test('a portable camera save restores media before boot', async () => {
   assert.equal(f.saves.length, 0);
 });
 
+function savedWith(first: number) {
+  return {
+    durable: new Uint8Array([first, 1]).buffer,
+    runtimeKey: 'prior-runtime',
+    positions: {},
+    poweredOn: true,
+    modEnabled: false,
+  };
+}
+
+test('a save from an incompatible emulator boots fresh and says so', async () => {
+  const f = setup({ saved: savedWith(0xee) });
+  const boot = await f.send({
+    action: 'boot',
+    config: f.config,
+    dat: new ArrayBuffer(1),
+    files: [],
+    seedIdentity: [],
+  });
+  assert.equal(boot.type, 'reply');
+  assert(f.calls.some((c) => c.action === 'restore_durable'));
+  assert(
+    f.events.some(
+      (e) => e.type === 'progress' && e.message.includes('was not restored; booting fresh'),
+    ),
+  );
+});
+
+test('other restore failures still fail the boot', async () => {
+  const f = setup({ saved: savedWith(0xef) });
+  const boot = await f.send({
+    action: 'boot',
+    config: f.config,
+    dat: new ArrayBuffer(1),
+    files: [],
+    seedIdentity: [],
+  });
+  assert.equal(boot.type, 'error');
+});
+
 test('replay advance returns while power is OFF and does not run or spin', async () => {
   const f = setup();
   await f.send({
