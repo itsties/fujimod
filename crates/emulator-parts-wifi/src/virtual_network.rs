@@ -11,7 +11,9 @@ use smoltcp::wire::{
     Ipv4Address, Ipv4Packet, TcpPacket, UdpPacket,
 };
 use std::io::{ErrorKind, Read, Write};
-use std::net::{SocketAddr, TcpStream};
+use std::net::SocketAddr;
+#[cfg(not(target_os = "emscripten"))]
+use std::net::TcpStream as HostStream;
 
 const DHCP_CLIENT_PORT: u16 = 68;
 const DHCP_SERVER_PORT: u16 = 67;
@@ -198,7 +200,7 @@ struct Connection {
     host_fin_sent: bool,
     guest_fin: bool,
     #[serde(skip)]
-    stream: Option<TcpStream>,
+    stream: Option<HostStream>,
 }
 
 impl Connection {
@@ -234,15 +236,48 @@ impl Connection {
     }
 }
 
-fn connect_host(port: u16) -> Option<TcpStream> {
+#[cfg(not(target_os = "emscripten"))]
+fn connect_host(port: u16) -> Option<HostStream> {
     let address: SocketAddr = ([127, 0, 0, 1], port).into();
-    let stream = TcpStream::connect_timeout(
+    let stream = HostStream::connect_timeout(
         &address,
         std::time::Duration::from_millis(HOST_CONNECT_TIMEOUT_MS),
     )
     .ok()?;
     stream.set_nonblocking(true).ok()?;
     Some(stream)
+}
+
+/// A browser build has no host loopback to relay to, and linking a socket
+/// would pull the Emscripten socket filesystem into a module built without a
+/// filesystem. Guest connections there report the host side closed.
+#[cfg(target_os = "emscripten")]
+enum HostStream {}
+#[cfg(target_os = "emscripten")]
+impl HostStream {
+    fn shutdown(&mut self, _: std::net::Shutdown) -> std::io::Result<()> {
+        match *self {}
+    }
+}
+#[cfg(target_os = "emscripten")]
+impl std::io::Read for HostStream {
+    fn read(&mut self, _: &mut [u8]) -> std::io::Result<usize> {
+        match *self {}
+    }
+}
+#[cfg(target_os = "emscripten")]
+impl std::io::Write for HostStream {
+    fn write(&mut self, _: &[u8]) -> std::io::Result<usize> {
+        match *self {}
+    }
+    fn flush(&mut self) -> std::io::Result<()> {
+        match *self {}
+    }
+}
+#[cfg(target_os = "emscripten")]
+fn connect_host(_: u16) -> Option<HostStream> {
+    let _ = (SocketAddr::from(([127, 0, 0, 1], 0)), HOST_CONNECT_TIMEOUT_MS);
+    None
 }
 
 #[derive(Default, Deserialize, Serialize)]
