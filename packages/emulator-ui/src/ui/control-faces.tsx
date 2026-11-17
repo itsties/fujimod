@@ -271,7 +271,8 @@ export function PositionsFace(
                 render={props.renderKey}
                 action={position.id}
                 class={
-                  selected() === position.id
+                  // A rendered key marks its own selection: the class reaches it once.
+                  selected() === position.id && !props.renderKey
                     ? `on ${props.size === 'mini' && props.held ? 'glow' : ''}`
                     : ''
                 }

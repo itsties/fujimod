@@ -835,7 +835,11 @@ function Node(props: {
                   <button
                     type="button"
                     data-value={position}
-                    class={[className, props.session.classes(id())]}
+                    class={[
+                      className,
+                      props.session.classes(id()),
+                      { on: props.session.read().positions.get(id()) === position },
+                    ]}
                     aria-pressed={
                       props.session.read().positions.get(id()) === position ? 'true' : 'false'
                     }
