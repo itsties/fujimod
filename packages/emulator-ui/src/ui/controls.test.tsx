@@ -112,6 +112,7 @@ test('every segment selects through the engine and remains synchronized after po
     expect(host.querySelector(`[data-value="${value}"]`)?.getAttribute('aria-pressed')).toBe(
       'true',
     );
+    expect(highlighted(host)).toEqual([value]);
   }
   (host.querySelector('[data-id="power"] [data-value="OFF"]') as HTMLButtonElement).click();
   flush();
@@ -131,7 +132,14 @@ test('every segment selects through the engine and remains synchronized after po
   session.synchronize({ focus_mode: 'single' });
   flush();
   expect(host.querySelector('[data-value="single"]')?.getAttribute('aria-pressed')).toBe('true');
+  expect(highlighted(host)).toEqual(['single']);
 });
+/** The focus mode segments shown as selected. */
+function highlighted(host: HTMLElement) {
+  return [...host.querySelectorAll('[data-id="focus_mode"] button.on')].map((button) =>
+    button.getAttribute('data-value'),
+  );
+}
 test('keyboard dials stop at their physical limits and relative dials preserve detent counts', () => {
   const { host, engine, session } = mount(
     [
