@@ -139,6 +139,12 @@ export async function loadWasm(
   };
 }
 /** The guest ticks a boot runs: the fixed run, or the tick a prepared boot reaches REC. */
+/** Restore errors that mean the save comes from an incompatible emulator build. */
+const INCOMPATIBLE_SAVE = [
+  'durable storage decode:',
+  'durable storage nodes differ from the checked graph',
+];
+
 function bootTotal(manifest: EmulatorManifest) {
   return manifest.bootTicks || manifest.recTicks || undefined;
 }
@@ -316,6 +322,23 @@ export class WasmWorkerRuntime {
     this.state = state;
     this.send({ type: 'state', state });
   }
+  /**
+   * Restore a saved camera. A save written by an older emulator whose storage
+   * format or device graph differs cannot be read by this one; the camera then
+   * boots fresh rather than failing, and its next save replaces the old one.
+   */
+  private restoreSaved(session: Camera, durable: ArrayBuffer): boolean {
+    try {
+      this.observe(session.restoreDurable(new Uint8Array(durable)));
+      return true;
+    } catch (error) {
+      const message = String(error instanceof Error ? error.message : error);
+      if (!INCOMPATIBLE_SAVE.some((prefix) => message.startsWith(prefix))) throw error;
+      console.warn('Saved camera state not restored:', message);
+      return false;
+    }
+  }
+
   private observeCurrent() {
     if (this.manifest && this.manifest.construction !== 'resolved')
       this.observe(this.require().state());
@@ -631,19 +654,23 @@ export class WasmWorkerRuntime {
         ),
       );
     const session = this.camera;
+    let restored = false;
     if (manifest.construction !== 'resolved') {
-      if (saved) this.observe(session.restoreDurable(new Uint8Array(saved.durable)));
+      if (saved) restored = this.restoreSaved(session, saved.durable);
       if (files.length) {
         const packed = packFiles(files);
         this.observe(session.replaceCard(packed.rows, packed.bytes, config.bootInputs ?? []));
-      } else if (saved && (config.restart || config.bootInputs?.length))
+      } else if (restored && (config.restart || config.bootInputs?.length))
         this.observe(session.powerCycle(config.bootInputs ?? []));
       this.observeCurrent();
     } else if (files.length || config.camera || Object.keys(config.initialPositions ?? {}).length)
       throw Error('Resolved ABI has no storage or initial positions.');
     this.send({
       type: 'progress',
-      message: 'Booting camera…',
+      message:
+        saved && !restored && manifest.construction !== 'resolved'
+          ? 'Saved camera state is from an older emulator and was not restored; booting fresh…'
+          : 'Booting camera…',
       assets: [loadingStep('build', 'complete'), bootProgress(0, bootTotal(manifest))],
     });
     if (scene && 'raf' in scene) {

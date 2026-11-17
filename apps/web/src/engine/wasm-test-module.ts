@@ -304,6 +304,9 @@ export function testCameraModule(shared = false) {
     }
     restoreDurable(durable: Uint8Array) {
       record('restore_durable', {}, durable);
+      // Marker saves: one an older emulator wrote, one with another failure.
+      if (durable[0] === 0xee) throw Error('durable storage decode: missing field `overlays`');
+      if (durable[0] === 0xef) throw Error('durable SD node is missing');
       return state;
     }
   }
